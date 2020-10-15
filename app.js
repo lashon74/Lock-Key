@@ -55,6 +55,8 @@ mongoose.connect("mongodb://localhost:27017/userDB", {
 mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema({
+  // firstname: String,
+  // lastname: String,
   email: String,
   password: String,
   googleId: String,
@@ -70,7 +72,6 @@ userSchema.plugin(findOrCreate);
 
 
 const User = new mongoose.model("User", userSchema);
-
 
 // used to set up a local strategy
 passport.use(User.createStrategy());
@@ -179,11 +180,7 @@ app.get("/secrets", function(req, res) {
   // }
   //
 
-  User.find({
-    "secret": {
-      $ne: null
-    }
-  }, function(err, foundUser) {
+  User.find({"secret": {$ne: null}}, function(err, foundUser) {
     if (err) {
       console.log(err);
     } else {
@@ -206,6 +203,8 @@ app.get("/submit", function(req, res) {
 
 app.post("/submit", function(req, res) {
   const submittedSecret = req.body.secret;
+
+
   User.findById(req.user.id, function(err, foundUser) {
     if (err) {
       console.log(err);
@@ -247,7 +246,9 @@ app.post("/register", function(req, res) {
 
   // This code is used for passport only
   User.register({
-    username: req.body.username
+    // firstname: req.body.firstname,
+    // lastname: req.body.lastname,
+    username: req.body.username,
   }, req.body.password, function(err, user) {
     if (err) {
       console.log(err);
@@ -289,6 +290,8 @@ app.post("/login", function(req, res) {
   // Code for passportLocalMongoose
 
   const user = new User({
+    // firstname: req.body.firstname,
+    // lastname: req.body.lastname,
     username: req.body.username,
     password: req.body.password
   });
@@ -305,7 +308,11 @@ app.post("/login", function(req, res) {
 
 });
 
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
 
-app.listen(3000, function() {
-  console.log("Server Started on port 3000");
+app.listen(port, function() {
+  console.log("Server has started Successfully");
 });

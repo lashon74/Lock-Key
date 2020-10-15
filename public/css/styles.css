@@ -2,6 +2,9 @@
 body {
   background-color: #E8ECEF;
 }
+img{
+  width: 50%;
+}
 
 .centered {
     padding-top: 200px;
@@ -13,4 +16,11 @@ body {
   font-size: 2rem;
   color: #fff;
   background-color: #000;
+
+}
+
+.jumbotron2{
+  background-color: black;
+  color: #E8ECEF;
+  height: 100vh;
 }
